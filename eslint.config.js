@@ -24,6 +24,38 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-restricted-imports': [
+        'warn',
+        {
+          paths: [
+            {
+              name: 'lodash',
+              message: 'Import specific lodash functions from lodash/<module> or prefer native APIs',
+            },
+            {
+              name: 'moment',
+              message: 'Moment is heavy. Prefer date-fns or Intl.DateTimeFormat',
+            },
+          ],
+          patterns: [
+            {
+              group: ['lodash/*'],
+              importNames: ['default'],
+              message: 'Avoid default import from lodash subpaths; import named functions only',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/vite.config.*', '**/*.config.*', 'eslint.config.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+    rules: {
+      'no-undef': 'off',
     },
   },
 ])
